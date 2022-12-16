@@ -1,0 +1,206 @@
+---
+title: "mbta eda"
+author: "xiaoyanbin Cai"
+date: "2022-12-15"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## loading libraries
+```{r}
+library(shiny)
+library(googleway)
+library(dplyr)
+library(leaflet)
+library(knitr)
+library(tidyverse)
+library(lubridate)
+```
+
+## import data
+```{r}
+traveltime_1 <- read.csv("~/Desktop/615-final-/2022-Q1_HRTravelTimes.csv")
+head(traveltime_1)
+
+traveltime_1.2 <- read.csv("~/Desktop/615-final-/2022-Q1_LRTravelTimes.csv")
+head(traveltime_1.2)
+```
+
+## Extract one week data 
+```{r}
+traveltime_1$service_date <- as.Date(traveltime_1$service_date)
+data1 <- traveltime_1[traveltime_1$service_date>='2022-01-01' & traveltime_1$service_date<='2022-01-07',]
+data1
+```
+
+## Extract Jan data
+```{r}
+traveltime_1.2$service_date <- as.Date(traveltime_1.2$service_date)
+data1.2 <- traveltime_1.2[traveltime_1.2$service_date>='2022-01-01' & traveltime_1.2$service_date<='2022-01-07',]
+data1.2
+```
+
+## Put two data set together
+```{r}
+total_1 = dplyr::bind_rows(data1,data1.2)
+total_1
+
+#summary(total)
+total_1 <- total_1 %>% mutate(route_id = factor(route_id))
+glimpse(total_1)
+```
+
+## import data
+```{r}
+traveltime_2 <- read.csv("~/Desktop/615-final-/2022-Q1_HRTravelTimes.csv")
+head(traveltime_2)
+
+traveltime_3 <- read.csv("~/Desktop/615-final-/2022-Q1_LRTravelTimes.csv")
+tail(traveltime_3)
+```
+
+## extract Fab data
+```{r}
+traveltime_2$service_date <- as.Date(traveltime_2$service_date)
+data2 <- traveltime_2[traveltime_2$service_date>='2022-02-01' & traveltime_2$service_date<='2022-02-07',]
+tail(data2)
+```
+
+## extarct March data
+```{r}
+traveltime_3$service_date <- as.Date(traveltime_3$service_date)
+data3 <- traveltime_3[traveltime_3$service_date>='2022-03-01' & traveltime_3$service_date<='2022-03-07',]
+data3
+tail(data3)
+```
+
+## extarct April data
+```{r}
+traveltime_4 <- read.csv("~/Desktop/615-final-/2022-Q2_HRTravelTimes.csv")
+head(traveltime_4)
+traveltime_4.2 <- read.csv("~/Desktop/615-final-/2022-Q2_LRTravelTimes.csv")
+head(traveltime_4.2)
+```
+
+## put 2 data together
+```{r}
+traveltime_4$service_date <- as.Date(traveltime_4$service_date)
+data4 <- traveltime_4[traveltime_4$service_date>='2022-04-01' & traveltime_4$service_date<='2022-04-07',]
+tail(data4)
+
+traveltime_4.2$service_date <- as.Date(traveltime_4.2$service_date)
+data4.2 <- traveltime_4.2[traveltime_4.2$service_date>='2022-04-01' & traveltime_4.2$service_date<='2022-04-07',]
+tail(data4.2)
+```
+
+```{r}
+total_4 = dplyr::bind_rows(data4,data4.2)
+total_4
+```
+
+## extract May data
+```{r}
+traveltime_4$service_date <- as.Date(traveltime_4$service_date)
+data5 <- traveltime_4[traveltime_4$service_date>='2022-05-01' & traveltime_4$service_date<='2022-05-07',]
+tail(data5)
+
+traveltime_4.2$service_date <- as.Date(traveltime_4.2$service_date)
+data5.2 <- traveltime_4.2[traveltime_4.2$service_date>='2022-05-01' & traveltime_4.2$service_date<='2022-05-07',]
+tail(data5.2)
+```
+
+```{r}
+total_5 = dplyr::bind_rows(data5,data5.2)
+total_5
+```
+
+## extract June data
+
+```{r}
+traveltime_4$service_date <- as.Date(traveltime_4$service_date)
+data6 <- traveltime_4[traveltime_4$service_date>='2022-06-01' & traveltime_4$service_date<='2022-06-07',]
+tail(data6)
+
+traveltime_4.2$service_date <- as.Date(traveltime_4.2$service_date)
+data6.2 <- traveltime_4.2[traveltime_4.2$service_date>='2022-06-01' & traveltime_4.2$service_date<='2022-06-07',]
+tail(data6.2)
+```
+
+```{r}
+total_6 = dplyr::bind_rows(data6,data6.2)
+total_6
+```
+
+## extract July data
+
+```{r}
+traveltime_7 <- read.csv("~/Desktop/615-final-/2022-Q3_HRTravelTimes.csv")
+head(traveltime_7)
+traveltime_7.2 <- read.csv("~/Desktop/615-final-/2022-Q3_LRTravelTimes.csv")
+head(traveltime_7.2)
+```
+
+```{r}
+traveltime_7$service_date <- as.Date(traveltime_7$service_date)
+data7 <- traveltime_7[traveltime_7$service_date>='2022-07-01' & traveltime_7$service_date<='2022-07-07',]
+tail(data7)
+
+traveltime_7.2$service_date <- as.Date(traveltime_7.2$service_date)
+data7.2 <- traveltime_7.2[traveltime_7.2$service_date>='2022-07-01' & traveltime_7.2$service_date<='2022-07-07',]
+tail(data7.2)
+```
+
+
+## put two data set together
+```{r}
+total_7 = dplyr::bind_rows(data7,data7.2)
+total_7
+```
+
+## Put 2022 data set all together
+```{r}
+total_2022 = dplyr::bind_rows(total_1,data2,data3,total_4,total_5,total_6,total_7)
+total_2022
+```
+
+## Trip durations and their distributions
+```{r}
+sample <- sample_n(total_2022,100000)#randomly choose 100000 data from total data set
+plot1 <- ggplot(sample)+geom_histogram(binwidth =100, aes(travel_time_sec))+ ggtitle("Fig 1.trip durations and their distribution") + ylab ("count") + xlab("trip duration")
+plot1
+```
+
+## Trip durations and their distributions transformation
+```{r}
+sample <- sample_n(total_2022,10000000)#randomly choose 100000 data from total data set
+plot2 <- ggplot(sample)+geom_histogram(aes(log(travel_time_sec)))+ ggtitle("Fig 2.trip durations and their distribution after transformation") + ylab ("frequenct of trips") + xlab("log trip duration")+ xlim(2,10)
+plot2 
+```
+
+## To evaluate how travel time vary over months
+```{r}
+total_2022 %>%
+  group_by(service_date) %>%
+  summarise(mean_travel = mean(travel_time_sec)) %>%
+  arrange(desc(mean_travel))
+```
+* As you can see from the result, on 2022-02-02 there's highest average travel time of subway from 2022 MBTA data frame.
+
+
+```{r}
+service_date_1 <- format(as.Date(total_2022$service_date), "%Y/%m")
+service_date_1
+ggplot(total_2022,aes(x=factor(service_date_1),y=travel_time_sec)) + geom_boxplot() + labs(x="date",y="travel time")
+```
+* This boxplot has given us a clear vision about the most reliable measure and mean.
+
+```{r}
+ggplot(data=total_2022,aes(x=route_id,fill = service_date_1)) + geom_bar()
+```
+
+
+
