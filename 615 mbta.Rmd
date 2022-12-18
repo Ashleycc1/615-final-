@@ -1,0 +1,63 @@
+---
+title: "615 data exploration"
+author: "xiaoyanbin Cai"
+date: "2022-12-13"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## import library
+```{r}
+library(shiny)
+library(leaflet)
+library(geosphere)
+library(shinythemes)
+library(mapsapi)
+library(rgdal)
+library(DT)
+library(dygraphs)
+```
+
+## set api key
+```{r}
+set_key( "AIzaSyB7QyPdgVRSD6RtFVnmkEapEH_mXcLX0ow")
+```
+
+## read data
+```{r}
+bus <- read.csv("~/Desktop/615-final-/stop.csv")
+```
+
+## do the shiny app
+```{r}
+ui <-fluidPage(
+  tabPanel("stop points"),
+  leafletOutput("mymap",height=1000)
+)
+
+
+server <- function(input, output, session){
+  #bus <- read.csv("~/Desktop/615-final-/stop.csv")
+  output$mymap <- renderLeaflet({
+    #bus <- data()
+   m <- leaflet(data=df) %>%
+      addTiles() %>%
+      #addMarkers(data=bus_1,~Y,~X,label = ~paste(stop-name))
+      setView(lng = -71.0589, lat = 42.3601, zoom = 12)
+    m
+  })
+}
+shinyApp(ui = ui, server = server)
+```
+
+## mark the stop points
+```{r}
+bus = data.frame(lat = bus$X,long=bus$Y)
+leaflet(bus) %>% addCircles()
+```
+
+* During the process, I found that I was very weak in this area of making shiny apps. I think I had a hard time understanding the logic between the how to put map and stop points together, which led to my inability to link the data to the code of the shiny app. I think I still need to practice writing code more. So in this assignment I wrote the stop points and the map separately. But in the shiny server I wrote the data import as I understand it. But that doesn't link the stop points to the map. So I think I still need to practice more on this.
